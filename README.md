@@ -8,3 +8,7 @@ Usage
        android:layout_height="wrap_content" <br/>
         android:src="@drawable/example" <br/>
         app:heightDiagonal="80dp" />
+      
+Example
+
+![](images/example.png)
