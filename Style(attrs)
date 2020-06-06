@@ -3,6 +3,7 @@
 
     <declare-styleable name="DiagonalImageView">
         <attr name="heightDiagonal" format="dimension" />
+           <attr name="angleDirection" format="string" />
     </declare-styleable>
 
 </resources>
