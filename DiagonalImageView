@@ -10,6 +10,7 @@ class DiagonalImageView @JvmOverloads constructor(
 
     @Px
     var angle: Float = context.dpToPx(DEFAULT_ANGLE_SIZE)
+    var angleDirection: String = "right"
 
     private val maskPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val viewRect = Rect()
@@ -25,6 +26,8 @@ class DiagonalImageView @JvmOverloads constructor(
                 R.styleable.DiagonalImageView_heightDiagonal,
                 context.dpToPx(DEFAULT_ANGLE_SIZE)
             )
+
+            angleDirection = ta.getString(R.styleable.DiagonalImageView_angleDirection) ?: "right"
             ta.recycle()
         }
         scaleType = ScaleType.CENTER_CROP
@@ -41,14 +44,10 @@ class DiagonalImageView @JvmOverloads constructor(
             right = w
             bottom = h
         }
-
         prepareBitmap(w, h)
-
     }
 
     override fun onDraw(canvas: Canvas?) {
-        //super.onDraw(canvas)
-
         canvas?.drawBitmap(resultBtm, viewRect, viewRect, null)
     }
 
@@ -59,10 +58,19 @@ class DiagonalImageView @JvmOverloads constructor(
         val maskCanvas = Canvas(mascBtm)
 
         val path = Path()
-        path.moveTo(0f, 0f)
-        path.lineTo(w.toFloat(), 0f)
-        path.lineTo(w.toFloat(), h.toFloat() - angle)
-        path.lineTo(0f, h.toFloat())
+
+        if (angleDirection == "left") {
+            path.moveTo(0f, 0f)
+            path.lineTo(w.toFloat(), 0f)
+            path.lineTo(w.toFloat(), h.toFloat())
+            path.lineTo(0f, h.toFloat() - angle)
+        } else {
+            path.moveTo(0f, 0f)
+            path.lineTo(w.toFloat(), 0f)
+            path.lineTo(w.toFloat(), h.toFloat() - angle)
+            path.lineTo(0f, h.toFloat())
+        }
+
         path.close()
 
         maskCanvas.drawPath(path, maskPaint)
